@@ -8,12 +8,10 @@ const Button = ({onClick, text}) => {
   )
 }
 
-const Paragraph = ({text, number}) => {
+const Paragraph = ({text, number, extra}) => {
   return (
     <div>
-      <p>
-        {text} {number}
-      </p>
+      {text} {number} {extra}
     </div>
   )
 }
@@ -23,20 +21,45 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [all, setAll] = useState(0)
+  const [average, setAverage] = useState(0)
+  const [positive, setPositive] = useState(0)
+
 
   const handleGoodClicks = () => {
       let newGood = good + 1
+      let newAll = newGood + bad + neutral
+      let newAverage = newAll / 3
+      let newPositive = (newGood / newAll) * 100
+
       setGood(newGood)
+      setAll(newAll)
+      setAverage(newAverage)
+      setPositive(newPositive)
   }
 
   const handleNeutralClicks = () => {
     let newNeutral = neutral + 1
+    let newAll = newNeutral + bad + good
+    let newAverage = newAll / 3
+    let newPositive = (good / newAll) * 100
+
     setNeutral(newNeutral)
+    setAll(newAll)
+    setAverage(newAverage)
+    setPositive(newPositive)
   }
 
   const handleBadClicks = () => {
     let newBad = bad + 1
+    let newAll = newBad + good + neutral
+    let newAverage = newAll / 3
+    let newPositive = (good / newAll) * 100
+
     setBad(newBad)
+    setAll(newAll)
+    setAverage(newAverage)
+    setPositive(newPositive)
   }
 
 
@@ -52,6 +75,9 @@ const App = () => {
       <Paragraph text={"good"} number={good} />
       <Paragraph text={"neutral"} number={neutral} />
       <Paragraph text={"bad"} number={bad} />
+      <Paragraph text={"all"} number={all} />
+      <Paragraph text={"average"} number={average} />
+      <Paragraph text={"positive"} number={positive} extra="%" />
     </div>
   )
 }
