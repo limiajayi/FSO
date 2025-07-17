@@ -1,54 +1,57 @@
 import { useState } from 'react'
 
-const History = (props) => {  
-  if (props.allClicks.length === 0) {    
-      return (      
-          <div>        
-            the app is used by pressing the buttons      
-          </div>    
-        )  
-        
-      }  
-      
-      return (    
-        <div> 
-          button press history: {props.allClicks.join(' ')}    
-        </div>  
-      )
-    }
+const Button = ({onClick, text}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
+  )
+}
 
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
+const Paragraph = ({text, number}) => {
+  return (
+    <div>
+      <p>
+        {text} {number}
+      </p>
+    </div>
+  )
+}
 
 const App = () => {
-  const [left, setLeft] = useState(0)
-  const [right, setRight] = useState(0)
-  const [allClicks, setAll] = useState([])
-  const [total, setTotal] = useState(0)
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
 
-  const handleLeftClick = () => {
-    setAll(allClicks.concat('L'))
-    const updatedLeft = left + 1
-    setLeft(updatedLeft)
-    setTotal(updatedLeft + right) 
+  const handleGoodClicks = () => {
+      let newGood = good + 1
+      setGood(newGood)
   }
 
-  const handleRightClick = () => {
-    setAll(allClicks.concat('R'))
-    const updatedRight = right + 1
-    setRight(updatedRight)
-
-    setTotal(updatedRight + left)
+  const handleNeutralClicks = () => {
+    let newNeutral = neutral + 1
+    setNeutral(newNeutral)
   }
+
+  const handleBadClicks = () => {
+    let newBad = bad + 1
+    setBad(newBad)
+  }
+
+
 
   return (
     <div>
-      {left}
-      <Button onClick={handleLeftClick} text='left'></Button>
-      <Button onClick={handleRightClick} text='right'></Button>
-      {right}
+      <h2>give feedback</h2>
+      <Button onClick={handleGoodClicks} text={"good"} />
+      <Button onClick={handleNeutralClicks} text={"neutral"} />
+      <Button onClick={handleBadClicks} text={"bad"} />
 
-      <History allClicks={allClicks} />
-      <p>total {total}</p>
+      <h2>statistics</h2>
+      <Paragraph text={"good"} number={good} />
+      <Paragraph text={"neutral"} number={neutral} />
+      <Paragraph text={"bad"} number={bad} />
     </div>
   )
 }
