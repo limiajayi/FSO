@@ -8,10 +8,10 @@ const Button = ({onClick, text}) => {
   )
 }
 
-const Paragraph = ({text, number, extra}) => {
+const StatisticLine = ({text, value, extra}) => {
   return (
     <div>
-      {text} {number} {extra}
+      {text} {value} {extra}
     </div>
   )
 }
@@ -21,12 +21,12 @@ const Statistics = ({good, neutral, bad, all, average, positive}) => {
   return (
     <div>
       <h2>statistics</h2>
-      <Paragraph text={"good"} number={good} />
-      <Paragraph text={"neutral"} number={neutral} />
-      <Paragraph text={"bad"} number={bad} />
-      <Paragraph text={"all"} number={all} />
-      <Paragraph text={"average"} number={average} />
-      <Paragraph text={"positive"} number={positive} extra="%" />
+      <StatisticLine text={"good"} value={good} />
+      <StatisticLine text={"neutral"} value={neutral} />
+      <StatisticLine text={"bad"} value={bad} />
+      <StatisticLine text={"all"} value={all} />
+      <StatisticLine text={"average"} value={average} />
+      <StatisticLine text={"positive"} value={positive} extra="%" />
     </div>
   )
 }
