@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const Button = ({onClick, text}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -12,21 +20,38 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
+  //selected randomly changes to the indices of the anecdotes array
   const [selected, setSelected] = useState(0)
+
+  //votes shows how many votes each anecdote has
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
 
   const handleSelectedChange = () => {
     let newSelected = Math.floor(Math.random() * anecdotes.length)
     setSelected(newSelected)
   }
 
+  const handleVotes = () => {
+    //state cannot be updated directly so we create a copy
+    const copy = [...votes]
+
+    //update current selected vote
+    copy[selected] += 1
+
+    setVotes(copy)
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      {/* the anecdote itself */}
+      <p>{anecdotes[selected]}</p>
+
+      {/* the votes the anecdote has */}
+      <p>has {votes[selected]} votes</p>
 
       <div>
-        <button onClick={handleSelectedChange}>
-          next anecdote
-        </button>
+        <Button onClick={handleVotes} text={"vote"} />
+        <Button onClick={handleSelectedChange} text={"next anecdote"} />
       </div>
     </div>
   )
