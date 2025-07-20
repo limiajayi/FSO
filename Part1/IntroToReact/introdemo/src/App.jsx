@@ -16,6 +16,21 @@ const Paragraph = ({text, number, extra}) => {
   )
 }
 
+const Statistics = ({good, neutral, bad, all, average, positive}) => {
+
+  return (
+    <div>
+      <h2>statistics</h2>
+      <Paragraph text={"good"} number={good} />
+      <Paragraph text={"neutral"} number={neutral} />
+      <Paragraph text={"bad"} number={bad} />
+      <Paragraph text={"all"} number={all} />
+      <Paragraph text={"average"} number={average} />
+      <Paragraph text={"positive"} number={positive} extra="%" />
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -62,7 +77,19 @@ const App = () => {
     setPositive(newPositive)
   }
 
+  if (good == 0 && bad == 0 && neutral == 0) {
+    return (
+      <>
+          <h2>give feedback</h2>
+          <Button onClick={handleGoodClicks} text={"good"} />
+          <Button onClick={handleNeutralClicks} text={"neutral"} />
+          <Button onClick={handleBadClicks} text={"bad"} />
 
+          <h2>statistics</h2>
+          <p>No feedback given</p>
+      </>
+    )
+  }
 
   return (
     <div>
@@ -71,13 +98,7 @@ const App = () => {
       <Button onClick={handleNeutralClicks} text={"neutral"} />
       <Button onClick={handleBadClicks} text={"bad"} />
 
-      <h2>statistics</h2>
-      <Paragraph text={"good"} number={good} />
-      <Paragraph text={"neutral"} number={neutral} />
-      <Paragraph text={"bad"} number={bad} />
-      <Paragraph text={"all"} number={all} />
-      <Paragraph text={"average"} number={average} />
-      <Paragraph text={"positive"} number={positive} extra="%" />
+      <Statistics good={good} bad={bad} neutral={neutral} all={all} average={average} positive={positive} />
     </div>
   )
 }
