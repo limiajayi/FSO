@@ -13,6 +13,16 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
+    let same = false
+    for (let object in persons) {
+        if (persons[object].name === newName) same = true
+    }
+    if (same === true) {
+      alert(`${newName} is already added in phonebook`)
+      return
+    }
+
+    //if there are no repeat names
     const newNameObject = {
       name: newName
     }
@@ -41,7 +51,7 @@ const App = () => {
         {persons.map((person) => {
           return (
             <Number 
-            key={person.name.length * Math.random()} 
+            key={person.name} 
             person={person} />
           )
         })}
