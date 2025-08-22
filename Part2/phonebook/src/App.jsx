@@ -3,15 +3,20 @@ import Number from './components/Number'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
-  const addName = (event) => {
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }
+
+  const addPerson = (event) => {
     event.preventDefault()
     let same = false
     for (let object in persons) {
@@ -24,22 +29,30 @@ const App = () => {
 
     //if there are no repeat names
     const newNameObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
-
     setPersons(persons.concat(newNameObject))
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName}>
+      <form onSubmit={addPerson}>
         <div>
           name: 
           <input 
           type='text'
           value={newName} 
           onChange={handleNameChange} />
+        </div>
+
+        <div>
+          number: 
+          <input
+          type='text'
+          value={newNumber}
+          onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
