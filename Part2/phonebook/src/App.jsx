@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import Number from './components/Number'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -39,45 +41,22 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <p>
-        filter shown with 
-        <input type='text' value={searchValue} onChange={({ target }) => {setSearchValue(target.value)}} />
-      </p>
+      {/* searching refractored into a filter component */}
+      <Filter searchValue={searchValue} setSearchValue={setSearchValue} />
 
-      <form onSubmit={addPerson}>
 
-        <div>
-          name: 
-          <input 
-          type='text'
-          value={newName} 
-          onChange={({ target }) => {setNewName(target.value)}} />
-        </div>
+      {/* form refractored into a personform component */}
+      <PersonForm 
+        addPerson={addPerson} 
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+      />
 
-        <div>
-          number: 
-          <input
-          type='text'
-          value={newNumber}
-          onChange={({ target }) => {setNewNumber(target.value)}} />
-        </div>
-
-        <div>
-          <button type="submit">add</button>
-        </div>
-
-      </form>
       <h2>Numbers</h2>
 
-      <div>
-        {personsToShow.map((person) => {
-          return (
-            <Number 
-            key={person.name} 
-            person={person} />
-          )
-        })}
-      </div>
+      <Persons personsToShow={personsToShow} />
 
     </div>
   )
