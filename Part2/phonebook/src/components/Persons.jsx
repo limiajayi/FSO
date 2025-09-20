@@ -2,8 +2,6 @@ import Number from "./Number"
 
 const Persons = ({ personsToShow }) => {
 
-    console.log(personsToShow)
-
     return (
         <div>
             {personsToShow.map((person) => {
