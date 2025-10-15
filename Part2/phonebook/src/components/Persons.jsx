@@ -1,14 +1,16 @@
 import Number from "./Number"
 
-const Persons = ({ personsToShow }) => {
+const Persons = ({ personsToShow, deletePerson }) => {
 
     return (
         <div>
             {personsToShow.map((person) => {
             return (
                 <Number 
-                key={person.name} 
-                person={person} />
+                key={person.id} 
+                person={person} 
+                deletePerson={() => deletePerson(person.id, person.name)}
+                />
             )
             })}
         </div>

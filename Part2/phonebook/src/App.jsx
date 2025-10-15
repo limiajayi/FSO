@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import personsService from './services/persons'
+
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,14 +11,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setSearchValue] = useState('')
 
-  const hook = () => {
-    axios.get('http://localhost:3001/persons')
-          .then(response => {
-            setPersons(response.data)
-          })
-  }
-
-  useEffect(hook, [])
+  useEffect(() => {
+    personsService
+    .getAll()
+    .then(initialPeople => setPersons(initialPeople))
+  }, [])
 
 
   const addPerson = (event) => {
@@ -39,16 +37,31 @@ const App = () => {
       number: newNumber,
     }
 
-    axios.post('http://localhost:3001/persons', newNameObject)
-          .then(response => {
-            
-            setPersons(persons.concat(response.data))
-            setNewName('')
-            setNewNumber('')
-          })
+    //persons service object from services
+    //returns response.data, the new object
+    //which can concatenated to the previous persons state object
+    personsService
+    .create(newNameObject)
+    .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      }
+    )
   }
 
-  
+  const deletePerson = (id, name) => {
+    //use windows.confirm like alert to make sure the user wants to delete the number
+    //if yes, personService.deletePerson( ) is executed. it returns nothing (just the request)
+
+    if (confirm(`Are you sure you want to delete ${name}'s number?`)) {
+        personsService
+          .deletePerson(id)
+          .then(() => {
+            setPersons(persons.filter(p => p.id !== id))
+          })
+    }
+  }
 
   //case insensitive search
   const personsToShow = searchValue ? persons.filter(person => {return person.name.toLowerCase().includes(searchValue) || person.name.includes(searchValue)}) : persons
@@ -72,7 +85,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} deletePerson={deletePerson} />
 
     </div>
   )
