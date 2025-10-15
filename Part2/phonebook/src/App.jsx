@@ -13,7 +13,6 @@ const App = () => {
   const hook = () => {
     axios.get('http://localhost:3001/persons')
           .then(response => {
-            console.log('promise fulfilled')
             setPersons(response.data)
           })
   }
@@ -37,10 +36,20 @@ const App = () => {
     //if there are no repeat names
     const newNameObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     }
     setPersons(persons.concat(newNameObject))
+
+    axios.post('http://localhost:3001/persons', newNameObject)
+          .then(response => {
+            
+            setPersons(persons.concat(response.data))
+            setNewName('')
+            setNewNumber('')
+          })
   }
+
+  
 
   //case insensitive search
   const personsToShow = searchValue ? persons.filter(person => {return person.name.toLowerCase().includes(searchValue) || person.name.includes(searchValue)}) : persons
