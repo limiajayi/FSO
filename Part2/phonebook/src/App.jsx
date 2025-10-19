@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personsService from './services/persons'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setSearchValue] = useState('')
+  const [message, setMessage] = useState('Umm...hes right behind me isn\'t he?')
 
   useEffect(() => {
     personsService
@@ -46,7 +48,15 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-      }
+
+        setMessage(`Added ${newNameObject.name}!`)
+
+        console.log(message)
+      
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+        }
     )
   }
 
@@ -69,6 +79,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
 
       {/* searching refractored into a filter component */}
       <Filter searchValue={searchValue} setSearchValue={setSearchValue} />
