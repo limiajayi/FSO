@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3001/notes'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
-    const nonExisting = {
+        const nonExisting = {
         id: 10000,
         content: "This note does not exist.",
         important: true,
