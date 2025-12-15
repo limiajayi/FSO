@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setSearchValue] = useState('')
-  const [message, setMessage] = useState('Umm...hes right behind me isn\'t he?')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personsService

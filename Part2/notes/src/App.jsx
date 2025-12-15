@@ -6,7 +6,7 @@ import Footer from "./components/Footer"
 
 
 const App = () => {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState(null)
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState('some error happened...')
@@ -60,6 +60,10 @@ const App = () => {
   
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important)
+
+  if (!notes) {
+    return null
+  }
 
   return (
         <div>
