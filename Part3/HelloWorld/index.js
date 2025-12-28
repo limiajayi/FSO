@@ -36,20 +36,39 @@ app.get('/api/notes', (request, response) => {
     response.json(notes)
 })
 
-app.post('/api/notes', (request, response) => {
-    // first we find out the max id in the current notes list
-    const maxId = notes.length > 0
-        ? Math.max(...notes.map(n => Number(n.id))) 
-        : 0
+const generateId = () => {
+    const maxId = notes.length > 0 ? Math.max(...notes.map(object => Number(object.id))) : 0
+    // notes.map(object => Number(object.id)) creates a new list that contains only the id numbers
+    // Math.max() returns the maximum number
 
-    // then we use json-parser with request.body to create the new note
-    const note = request.body
-    note.id = String(maxId + 1)
+    //returns the stringified new id
+    return String(maxId + 1)
+}
+
+//post request to add a new note object to the notes list
+app.post('/api/notes', (request, response) => {
+    const body = request.body
+
+    // if the body of the request is falsy send a status code 404
+    if (!body.content) {
+        return response.status(400).json({
+            error: 'content missing'
+        })
+    }
+
+    // the new note object, add this to the notes list
+    const note = {
+        content: body.content,
+        important: body.important || false,
+        id: generateId(),
+    }
 
     notes = notes.concat(note)
 
+    //respond with the new note
     response.json(note)
 })
+
 
 
 // get request for a specific note
