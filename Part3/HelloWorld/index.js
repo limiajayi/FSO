@@ -4,7 +4,6 @@ const app = express()
 // our "api" as a Java Object, later converted to json, which we will use to learn restful APIs
 
 //This helps us to convert the request body into a JSON format -
-app.use(express.json())
 
 let notes = [
     {
@@ -23,6 +22,19 @@ let notes = [
         important: true
     }
 ]
+
+//our own middleware function:
+const requestLogger = (request, response, next) => {
+    console.log('Method:    ', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+}
+
+app.use(express.json())
+app.use(requestLogger)
+
 
 // get request for the root of the app
 app.get('/', (request, response) => {
@@ -96,6 +108,12 @@ app.delete('/api/notes/:id', (request, response) => {
 })
 // there is no consensus for what status code should be 
 // returned to a delete request if the resource does not exist
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
