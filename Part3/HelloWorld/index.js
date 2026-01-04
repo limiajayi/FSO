@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 
 // our "api" as a Java Object, later converted to json, which we will use to learn restful APIs
@@ -34,6 +35,7 @@ const requestLogger = (request, response, next) => {
 
 app.use(express.json())
 app.use(requestLogger)
+app.use(cors())
 
 
 // get request for the root of the app
